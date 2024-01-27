@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -6,6 +6,25 @@ function App() {
   const [password, setpassword] = useState("");
   const [numbersAllowed, setNumbersAllowed] = useState(false);
   const [symbolsAllowed, setsymbolsAllowed] = useState(false);
+
+  const ganeratePassword = useCallback(() => {
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let pass = "";
+
+    if (numbersAllowed) str += "0123456789";
+    if (symbolsAllowed) str += "!@#$%^&*()-_=+";
+
+    for (let i = 1; i < length; i++) {
+      let char_index = Math.floor(Math.random() * str.length + 1);
+      pass += str.charAt(char_index);
+    }
+    setpassword(pass);
+  });
+
+  useEffect(() => {
+    ganeratePassword();
+  }, [symbolsAllowed, numbersAllowed, length]);
+
   return (
     <>
       <div className="w-full max-w-screen-sm mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500'">
